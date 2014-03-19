@@ -1,0 +1,32 @@
+{
+    "name": "coral/core-bundle",
+    "type": "symfony-bundle",
+    "description": "Coral Core Bundle",
+    "keywords": ["CMS", "Coral"],
+    "homepage": "https://github.com/Atlantic18/CoralCoreBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frantisek Troster",
+            "email": "frantisek.troster@atlantic18.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "~2.4"
+    },
+    "require-dev": {
+        "doctrine/orm": "*",
+        "doctrine/doctrine-bundle": "*"
+    },
+    "autoload": {
+        "psr-0": { "Coral\\CoreBundle": "" }
+    },
+    "target-dir": "Coral/CoreBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
