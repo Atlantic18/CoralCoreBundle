@@ -1,3 +1,22 @@
+services:
+    kernel.listener.core_bundle_exception_listener:
+        class: Coral\CoreBundle\Service\JsonExceptionService
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+        arguments:
+            - @logger
+    kernel.listener.core_bundle_authentication_listener:
+        class: Coral\CoreBundle\Service\JsonAuthenticationService
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+liip_functional_test: ~
+
 doctrine:
     dbal:
         driver: pdo_sqlite

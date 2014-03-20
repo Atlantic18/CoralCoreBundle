@@ -14,6 +14,7 @@ class AppKernel extends TestKernel
         $this->addBundles(array(
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Coral\CoreBundle\CoralCoreBundle(),
+            new Liip\FunctionalTestBundle\LiipFunctionalTestBundle()
         ));
     }
 

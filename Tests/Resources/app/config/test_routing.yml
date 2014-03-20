@@ -1,3 +1,0 @@
-coral_core:
-    resource: "@CoralCoreBundle/Controller"
-    type:     annotation

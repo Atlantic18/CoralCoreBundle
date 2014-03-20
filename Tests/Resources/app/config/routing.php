@@ -1,10 +1,12 @@
 <?php
 
-use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Loader\AnnotationDirectoryLoader;
+use Symfony\Component\Config\FileLocator;
+use Sensio\Bundle\FrameworkExtraBundle\Routing\AnnotatedRouteControllerLoader;
+use Doctrine\Common\Annotations\AnnotationReader;
 
-$collection = new RouteCollection();
-$collection->addCollection(
-    $loader->import(__DIR__.'/test_routing.yml')
-);
+$locator = new FileLocator();
+$aLoader = new AnnotatedRouteControllerLoader(new AnnotationReader());
 
-return $collection;
+$loader = new AnnotationDirectoryLoader($locator, $aLoader);
+return $loader->load(__DIR__ . '/../../../../Controller');
