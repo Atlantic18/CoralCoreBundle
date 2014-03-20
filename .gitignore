@@ -1,6 +1,8 @@
+Tests/Resources/app/cache
+Tests/Resources/app/logs
 composer.lock
+composer.phar
+vendor
 phpunit.xml
-Tests/autoload.php
 nbproject
 catalog.xml
-vendor/*
