@@ -1,3 +1,17 @@
+framework:
+    secret: test
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+    form:            true
+    csrf_protection: true
+    validation:
+        enabled: true
+        enable_annotations: true
+    router:
+        resource: %kernel.root_dir%/config/routing.php
+    default_locale: "en"
+
 services:
     kernel.listener.core_bundle_exception_listener:
         class: Coral\CoreBundle\Service\JsonExceptionService
@@ -10,10 +24,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
-framework:
-    test: ~
-    session:
-        storage_id: session.storage.filesystem
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
 
 liip_functional_test: ~
 
