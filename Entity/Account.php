@@ -35,11 +35,6 @@ class Account
     private $created_at;
 
     /**
-     * 
-     */
-    private $sitemaps;
-
-    /**
      * @ORM\OneToMany(targetEntity="Coral\CoreBundle\Entity\Client", mappedBy="account")
      */
     private $remoteApplications;
@@ -50,18 +45,12 @@ class Account
     private $observers;
 
     /**
-     * 
-     */
-    private $files;
-    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->sitemaps = new \Doctrine\Common\Collections\ArrayCollection();
         $this->remoteApplications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->observers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -95,39 +84,6 @@ class Account
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Add sitemaps
-     *
-     * @param \Coral\ContentBundle\Entity\Node $sitemaps
-     * @return Account
-     */
-    public function addSitemap(\Coral\ContentBundle\Entity\Node $sitemaps)
-    {
-        $this->sitemaps[] = $sitemaps;
-
-        return $this;
-    }
-
-    /**
-     * Remove sitemaps
-     *
-     * @param \Coral\ContentBundle\Entity\Node $sitemaps
-     */
-    public function removeSitemap(\Coral\ContentBundle\Entity\Node $sitemaps)
-    {
-        $this->sitemaps->removeElement($sitemaps);
-    }
-
-    /**
-     * Get sitemaps
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSitemaps()
-    {
-        return $this->sitemaps;
     }
 
     /**
@@ -197,39 +153,6 @@ class Account
     }
 
     /**
-     * Add files
-     *
-     * @param \Coral\FileBundle\Entity\File $files
-     * @return Account
-     */
-    public function addFile(\Coral\FileBundle\Entity\File $files)
-    {
-        $this->files[] = $files;
-
-        return $this;
-    }
-
-    /**
-     * Remove files
-     *
-     * @param \Coral\FileBundle\Entity\File $files
-     */
-    public function removeFile(\Coral\FileBundle\Entity\File $files)
-    {
-        $this->files->removeElement($files);
-    }
-
-    /**
-     * Get files
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFiles()
-    {
-        return $this->files;
-    }
-
-    /**
      * Set updated_at
      *
      * @param \DateTime $updatedAt
@@ -238,14 +161,14 @@ class Account
     public function setUpdatedAt($updatedAt)
     {
         $this->updated_at = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updated_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -261,14 +184,14 @@ class Account
     public function setCreatedAt($createdAt)
     {
         $this->created_at = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get created_at
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
