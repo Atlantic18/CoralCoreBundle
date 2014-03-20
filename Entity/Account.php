@@ -35,7 +35,7 @@ class Account
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity="Coral\ContentBundle\Entity\Node", mappedBy="account")
+     * 
      */
     private $sitemaps;
 
@@ -50,7 +50,7 @@ class Account
     private $observers;
 
     /**
-     * @ORM\OneToMany(targetEntity="Coral\FileBundle\Entity\File", mappedBy="account")
+     * 
      */
     private $files;
     /**
