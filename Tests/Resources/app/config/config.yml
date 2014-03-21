@@ -23,6 +23,12 @@ services:
         class: Coral\CoreBundle\Service\JsonAuthenticationService
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]
 
 monolog:
     handlers:
