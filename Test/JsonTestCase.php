@@ -2,8 +2,6 @@
 
 namespace Coral\CoreBundle\Test;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase;
-
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;

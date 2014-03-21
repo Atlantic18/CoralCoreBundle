@@ -31,8 +31,6 @@ monolog:
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
 
-liip_functional_test: ~
-
 doctrine:
     dbal:
         driver: pdo_sqlite

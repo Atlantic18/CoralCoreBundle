@@ -12,8 +12,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
-            new Coral\CoreBundle\CoralCoreBundle(),
-            new Liip\FunctionalTestBundle\LiipFunctionalTestBundle()
+            new Coral\CoreBundle\CoralCoreBundle()
         );
     }
 
