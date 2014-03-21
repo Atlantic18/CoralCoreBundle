@@ -10,6 +10,17 @@ use Coral\CoreBundle\Test\JsonTestCase;
 
 class ControllerAuthenticationTest extends JsonTestCase
 {
+    public function __construct()
+    {
+        /**
+         * Initially a database needs to be created or the very first run
+         * of phpunit fails. setupBeforeClass couldn't be used as it is static.
+         */
+        $this->loadFixtures(array(
+            'Coral\CoreBundle\Tests\DataFixtures\ORM\MinimalSettingsData'
+        ));
+    }
+
     public function testMissingAccount()
     {
         $uri         = '/v1/observer/add';

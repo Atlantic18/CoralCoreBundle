@@ -9,6 +9,17 @@ use Coral\CoreBundle\Test\JsonTestCase;
 
 class ObserverControllerTest extends JsonTestCase
 {
+    public function __construct()
+    {
+        /**
+         * Initially a database needs to be created or the very first run
+         * of phpunit fails. setupBeforeClass couldn't be used as it is static.
+         */
+        $this->loadFixtures(array(
+            'Coral\CoreBundle\Tests\DataFixtures\ORM\MinimalSettingsData'
+        ));
+    }
+
     public function testAddEmptyJson()
     {
         $client = $this->doPostRequest('/v1/observer/add');

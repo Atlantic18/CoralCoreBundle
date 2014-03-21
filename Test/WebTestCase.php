@@ -11,27 +11,15 @@
 
 /**
  * Moved from Liip/FunctionalTestBundle to remove dependency
- * on the whole bundle for this File. No changes to the original
- * file were made except for the namespace change.
+ * on the whole bundle for this File. Removed unused parts of code
+ * and configuration dependencies.
  */
 namespace Coral\CoreBundle\Test;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Client;
 
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\ClassLoader\DebugClassLoader;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\ProxyReferenceRepository;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
