@@ -50,6 +50,16 @@ class JsonParser
         return $this->params;
     }
 
+    /**
+     * All parsed params. Needed for cache usage
+     *
+     * @param array All params
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+    }
+
     private function validatePath($path)
     {
         $regexp  = '/^(?:[a-z0-9_]*(?:\.|\[\d+\]|\*)?)+$/i';
