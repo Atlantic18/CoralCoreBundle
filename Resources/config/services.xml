@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="coral.connect.class">Coral\CoreBundle\Service\CoralConnect</parameter>
+        <parameter key="coral.connect_cache.class">Doctrine\Common\Cache\PhpFileCache</parameter>
+        <parameter key="coral.exception_handler.class">Coral\CoreBundle\Service\JsonExceptionHandler</parameter>
+        <parameter key="coral.authentication.class">Coral\CoreBundle\Service\JsonAuthentication</parameter>
+    </parameters>
+
+    <services>
+        <service id="coral.connect.cache" class="%coral.connect_cache.class%">
+            <argument>%kernel.cache_dir%</argument>
+            <call method="setNamespace">
+                <argument>coral_connect</argument>
+            </call>
+        </service>
+        <service id="coral.connect" class="%coral.connect.class%">
+            <argument type="service" id="coral.connect.cache"/>
+            <argument>%coral.connect.uri%</argument>
+            <argument>%coral.connect.account%</argument>
+            <argument>%coral.connect.api_key%</argument>
+        </service>
+        <service id="kernel.listener.core_bundle_exception_listener" class="%coral.exception_handler.class%">
+            <argument type="service" id="logger"/>
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+        </service>
+        <service id="kernel.listener.core_bundle_authentication_listener" class="%coral.authentication.class%">
+            <argument type="service" id="logger"/>
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+    </services>
+</container>

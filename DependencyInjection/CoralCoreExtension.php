@@ -22,7 +22,11 @@ class CoralCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.php');
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
+
+        $container->setParameter('coral.connect.uri', $config['uri']);
+        $container->setParameter('coral.connect.account', $config['account']);
+        $container->setParameter('coral.connect.api_key', $config['api_key']);
     }
 }

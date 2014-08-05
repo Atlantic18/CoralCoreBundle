@@ -13,7 +13,7 @@ use Coral\CoreBundle\Controller\JsonController;
 use Coral\CoreBundle\Exception\JsonException;
 use Coral\CoreBundle\Exception\AuthenticationException;
 
-class JsonAuthenticationService implements EventSubscriberInterface
+class JsonAuthentication implements EventSubscriberInterface
 {
     private $request;
 

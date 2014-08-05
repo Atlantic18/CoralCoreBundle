@@ -1,3 +1,12 @@
+parameters:
+    coral.connect_cache.class: Doctrine\Common\Cache\ArrayCache
+    coral.connect.class:       Coral\CoreBundle\Service\CoralConnectMockup
+
+coral_core:
+    uri:     %kernel.root_dir%/coral_connect
+    account: account
+    api_key: apisecretkey
+
 framework:
     secret: test
     test: ~
@@ -13,16 +22,6 @@ framework:
     default_locale: "en"
 
 services:
-    kernel.listener.core_bundle_exception_listener:
-        class: Coral\CoreBundle\Service\JsonExceptionService
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-        arguments:
-            - @logger
-    kernel.listener.core_bundle_authentication_listener:
-        class: Coral\CoreBundle\Service\JsonAuthenticationService
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener
         tags:

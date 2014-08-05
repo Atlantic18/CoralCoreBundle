@@ -10,7 +10,7 @@ use Coral\CoreBundle\Exception\JsonException;
 use Coral\CoreBundle\Exception\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class JsonExceptionService
+class JsonExceptionHandler
 {
     private $logger;
 

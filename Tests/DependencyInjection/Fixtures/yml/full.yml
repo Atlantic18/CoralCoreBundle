@@ -1,0 +1,4 @@
+coral_core:
+    uri:     https://example.com
+    account: account
+    api_key: apisecretkey
