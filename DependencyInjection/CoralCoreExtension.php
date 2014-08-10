@@ -28,5 +28,6 @@ class CoralCoreExtension extends Extension
         $container->setParameter('coral.connect.uri', $config['uri']);
         $container->setParameter('coral.connect.account', $config['account']);
         $container->setParameter('coral.connect.api_key', $config['api_key']);
+        $container->setParameter('coral.version_file', $config['version_file']);
     }
 }

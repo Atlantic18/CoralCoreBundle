@@ -28,6 +28,23 @@ class CoralCoreExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getFormats
      */
+    public function testLoadMinConfiguration($format)
+    {
+        $container = $this->createContainer();
+        $container->registerExtension(new CoralCoreExtension());
+        $this->loadFromFile($container, 'min', $format);
+        $this->compileContainer($container);
+
+        $this->assertEquals('https://example.com', $container->getParameter('coral.connect.uri'));
+        $this->assertEquals('account', $container->getParameter('coral.connect.account'));
+        $this->assertEquals('apisecretkey', $container->getParameter('coral.connect.api_key'));
+        $version_file_path = dirname(__FILE__) . '/Fixtures/../version';
+        $this->assertEquals($version_file_path, $container->getParameter('coral.version_file'));
+    }
+
+    /**
+     * @dataProvider getFormats
+     */
     public function testLoadFullConfiguration($format)
     {
         $container = $this->createContainer();
@@ -38,6 +55,7 @@ class CoralCoreExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://example.com', $container->getParameter('coral.connect.uri'));
         $this->assertEquals('account', $container->getParameter('coral.connect.account'));
         $this->assertEquals('apisecretkey', $container->getParameter('coral.connect.api_key'));
+        $this->assertEquals('version_file_path', $container->getParameter('coral.version_file'));
     }
 
     public function getFormats()
