@@ -3,9 +3,10 @@ parameters:
     coral.connect.class:       Coral\CoreBundle\Service\CoralConnectMockup
 
 coral_core:
-    uri:     %kernel.root_dir%/coral_connect
-    account: account
-    api_key: apisecretkey
+    uri:          %kernel.root_dir%/fixtures/coral_connect
+    account:      account
+    api_key:      apisecretkey
+    version_file: %kernel.root_dir%/fixtures/version
 
 framework:
     secret: test
