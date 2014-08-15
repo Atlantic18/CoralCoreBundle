@@ -29,10 +29,5 @@
     "autoload": {
         "psr-0": { "Coral\\CoreBundle": "" }
     },
-    "target-dir": "Coral/CoreBundle",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1-dev"
-        }
-    }
+    "target-dir": "Coral/CoreBundle"
 }
