@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 class CoralCoreExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      * @dataProvider getFormats
      */
     public function testLoadEmptyConfiguration($format)
@@ -23,21 +22,6 @@ class CoralCoreExtensionTest extends \PHPUnit_Framework_TestCase
         $container->registerExtension(new CoralCoreExtension());
         $this->loadFromFile($container, 'empty', $format);
         $this->compileContainer($container);
-    }
-
-    /**
-     * @dataProvider getFormats
-     */
-    public function testLoadMinConfiguration($format)
-    {
-        $container = $this->createContainer();
-        $container->registerExtension(new CoralCoreExtension());
-        $this->loadFromFile($container, 'min', $format);
-        $this->compileContainer($container);
-
-        $this->assertEquals('https://example.com', $container->getParameter('coral.connect.uri'));
-        $this->assertEquals('account', $container->getParameter('coral.connect.account'));
-        $this->assertEquals('apisecretkey', $container->getParameter('coral.connect.api_key'));
     }
 
     /**

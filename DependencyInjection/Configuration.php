@@ -23,15 +23,15 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('uri')
-                    ->isRequired()
+                    ->defaultValue('CoralRestUri')
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('account')
-                    ->isRequired()
+                    ->defaultValue('CoralRestAccount')
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('api_key')
-                    ->isRequired()
+                    ->defaultValue('CoralRestToken')
                     ->cannotBeEmpty()
                 ->end()
             ->end();
