@@ -4,7 +4,6 @@ namespace Coral\CoreBundle\Tests\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Coral\CoreBundle\Entity\Event;
 use Coral\CoreBundle\Entity\Account;
 use Coral\CoreBundle\Entity\Client;
 
@@ -15,9 +14,6 @@ class MinimalSettingsData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $event = new Event();
-        $event->setName('add_content');
-
         $account = new Account();
         $account->setName('test_account');
 
@@ -34,7 +30,6 @@ class MinimalSettingsData implements FixtureInterface
         $client2->setDescription('functional test accesss (2)');
         $client2->setAccount($account2);
 
-        $manager->persist($event);
         $manager->persist($account);
         $manager->persist($client);
         $manager->persist($account2);

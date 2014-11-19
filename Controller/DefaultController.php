@@ -2,12 +2,11 @@
 
 namespace Coral\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class DefaultController extends JsonController
 {
     /**
      * @Route("/v1/version")
@@ -23,6 +22,9 @@ class DefaultController extends Controller
             $version = file_get_contents($filename);
         }
 
-        return new Response('Version: ' . $version);
+        return new JsonResponse(array(
+            'status'  => 'ok',
+            'version' => $version
+        ), 200);
     }
 }

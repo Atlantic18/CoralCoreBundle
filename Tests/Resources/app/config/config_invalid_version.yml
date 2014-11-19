@@ -3,3 +3,7 @@ imports:
 
 coral_core:
     version_file: %kernel.root_dir%/invalid
+
+doctrine:
+    dbal:
+        path:   %kernel.root_dir%/cache/database.test.sqlite
