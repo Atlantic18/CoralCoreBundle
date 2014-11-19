@@ -40,7 +40,7 @@ class Account
     private $remoteApplications;
 
     /**
-     * @ORM\OneToMany(targetEntity="Coral\CoreBundle\Entity\Observer", mappedBy="account")
+     * 
      */
     private $observers;
 
