@@ -21,11 +21,7 @@
         "symfony/security-bundle": "~2.4",
         "symfony/monolog-bundle": "~2.4",
         "symfony/validator": "~2.4",
-        "sensio/framework-extra-bundle": "*",
-        "doctrine/orm": "*",
-        "doctrine/doctrine-bundle": "*",
-        "doctrine/doctrine-fixtures-bundle": "*",
-        "gedmo/doctrine-extensions": "dev-master"
+        "sensio/framework-extra-bundle": "*"
     },
     "autoload": {
         "psr-0": { "Coral\\CoreBundle": "" }

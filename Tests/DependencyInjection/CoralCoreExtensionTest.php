@@ -38,8 +38,6 @@ class CoralCoreExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://example.com', $container->getParameter('coral.connect.uri'));
         $this->assertEquals('account', $container->getParameter('coral.connect.account'));
         $this->assertEquals('apisecretkey', $container->getParameter('coral.connect.api_key'));
-        $version_file_path = dirname(__FILE__) . '/Fixtures/../version';
-        $this->assertEquals($version_file_path, $container->getParameter('coral.version_file'));
     }
 
     /**
@@ -55,7 +53,6 @@ class CoralCoreExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('https://example.com', $container->getParameter('coral.connect.uri'));
         $this->assertEquals('account', $container->getParameter('coral.connect.account'));
         $this->assertEquals('apisecretkey', $container->getParameter('coral.connect.api_key'));
-        $this->assertEquals('version_file_path', $container->getParameter('coral.version_file'));
     }
 
     public function getFormats()

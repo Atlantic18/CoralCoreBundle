@@ -2,4 +2,3 @@ coral_core:
     uri:          https://example.com
     account:      account
     api_key:      apisecretkey
-    version_file: version_file_path

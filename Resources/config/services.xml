@@ -7,8 +7,6 @@
     <parameters>
         <parameter key="coral.connect.class">Coral\CoreBundle\Service\CoralConnect</parameter>
         <parameter key="coral.connect_cache.class">Doctrine\Common\Cache\PhpFileCache</parameter>
-        <parameter key="coral.exception_handler.class">Coral\CoreBundle\Service\JsonExceptionHandler</parameter>
-        <parameter key="coral.authentication.class">Coral\CoreBundle\Service\JsonAuthentication</parameter>
     </parameters>
 
     <services>
@@ -23,14 +21,6 @@
             <argument>%coral.connect.uri%</argument>
             <argument>%coral.connect.account%</argument>
             <argument>%coral.connect.api_key%</argument>
-        </service>
-        <service id="kernel.listener.core_bundle_exception_listener" class="%coral.exception_handler.class%">
-            <argument type="service" id="logger"/>
-            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
-        </service>
-        <service id="kernel.listener.core_bundle_authentication_listener" class="%coral.authentication.class%">
-            <argument type="service" id="logger"/>
-            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
     </services>
 </container>

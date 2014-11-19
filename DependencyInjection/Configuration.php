@@ -34,11 +34,6 @@ class Configuration implements ConfigurationInterface
                     ->isRequired()
                     ->cannotBeEmpty()
                 ->end()
-                ->scalarNode('version_file')
-                    ->cannotBeEmpty()
-                    ->defaultValue('%kernel.root_dir%/../version')
-                    ->info('Path to the file containing version details.')
-                ->end()
             ->end();
 
         return $treeBuilder;
