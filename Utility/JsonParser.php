@@ -62,7 +62,7 @@ class JsonParser
 
     private function validatePath($path)
     {
-        $regexp  = '/^(?:[a-z0-9_]*(?:\.|\[\d+\]|\*)?)+$/i';
+        $regexp  = '/^(?:[a-z0-9_\-]*(?:\.|\[\d+\]|\*)?)+$/i';
         $isValid = preg_match($regexp, $path, $matches);
         if(!$isValid)
         {
