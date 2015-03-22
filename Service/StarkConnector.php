@@ -42,6 +42,15 @@ class StarkConnector implements ConnectorInterface
 
     private function doCurlRequest($type, $uri, $data = null)
     {
+        //Return cached call
+        if($type == 'GET' && (false !== ($params = $this->_cache->fetch($uri))))
+        {
+            $parser = new JsonParser;
+            $parser->setParams($params);
+
+            return $parser;
+        }
+
         $ch = curl_init($this->_host . $uri);
 
         if(null !== $data)
@@ -51,6 +60,7 @@ class StarkConnector implements ConnectorInterface
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
 
         if($this->_disableSslVerification)
         {
@@ -66,12 +76,17 @@ class StarkConnector implements ConnectorInterface
 
         $rawResponse = curl_exec($ch);
         $httpCode    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
 
         if(false === $rawResponse)
         {
+            curl_close($ch);
             throw new ConnectorException('Unable to connect to Stark backend. Response code: ' . $httpCode);
         }
+
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headers     = strtolower(substr($rawResponse, 0, $header_size));
+        $rawResponse = substr($rawResponse, $header_size);
+        curl_close($ch);
 
         $parser = new JsonParser($rawResponse, true);
         if($httpCode < 200 || $httpCode > 299)
@@ -81,6 +96,24 @@ class StarkConnector implements ConnectorInterface
                 Uri: $type $uri
                 Response code: $httpCode.
                 Error: " . $parser->getMandatoryParam('message'));
+        }
+
+        //Save response to cache
+        if($type == 'GET')
+        {
+            $cacheTTL = false;
+
+            //Cache-Control header with max-age
+            if(preg_match('/cache\-control\:\s*(private|public),\s*max\-age=([0-9]+)/i', $headers, $matches))
+            {
+                //Whether it's private or public is in $matches[1]
+                $cacheTTL = $matches[2];
+            }
+
+            if(false !== $cacheTTL)
+            {
+                $this->_cache->save($uri, $parser->getParams(), $cacheTTL);
+            }
         }
 
         return $parser;

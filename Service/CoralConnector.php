@@ -85,6 +85,7 @@ class CoralConnector implements ConnectorInterface
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $type);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
 
         if($this->_disableSslVerification)
         {
@@ -102,12 +103,17 @@ class CoralConnector implements ConnectorInterface
 
         $rawResponse = curl_exec($ch);
         $httpCode    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
 
         if(false === $rawResponse)
         {
+            curl_close($ch);
             throw new ConnectorException('Unable to connect to CORAL backend. Response code: ' . $httpCode);
         }
+
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headers     = strtolower(substr($rawResponse, 0, $header_size));
+        $rawResponse = substr($rawResponse, $header_size);
+        curl_close($ch);
 
         $parser = new JsonParser($rawResponse, true);
         if($httpCode < 200 || $httpCode > 299)
@@ -119,10 +125,22 @@ class CoralConnector implements ConnectorInterface
                 Error: " . $parser->getMandatoryParam('message'));
         }
 
-        //Saver response to cache
+        //Save response to cache
         if($type == 'GET')
         {
-            $this->_cache->save($uri, $parser->getParams(), xxxx);
+            $cacheTTL = false;
+
+            //Cache-Control header with max-age
+            if(preg_match('/cache\-control\:\s*(private|public),\s*max\-age=([0-9]+)/i', $headers, $matches))
+            {
+                //Whether it's private or public is in $matches[1]
+                $cacheTTL = $matches[2];
+            }
+
+            if(false !== $cacheTTL)
+            {
+                $this->_cache->save($uri, $parser->getParams(), $cacheTTL);
+            }
         }
 
         return $parser;
