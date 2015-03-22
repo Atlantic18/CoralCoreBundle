@@ -2,29 +2,25 @@
 
 namespace Coral\CoreBundle\Service;
 
-use Doctrine\Common\Cache\Cache;
-
-interface CoralConnectInterface
+interface ConnectorInterface
 {
-    public function __construct(Cache $cache, $host, $account, $key);
-
     /**
      * Create POST request to CORAL backend
      *
      * @param  string $uri  Service URI
-     * @param  array  $data Datat to be sent
+     * @param  array  $payload Datat to be sent
      * @return JsonResponse Response
      */
-    public function doPostRequest($uri, $data = null);
+    public function doPostRequest($uri, $payload = null);
 
     /**
-     * Create GET request to CORAL backend
+     * Create GET request to CORAL backend. GET requests
+     * are cached if response headers allow it.
      *
      * @param  string $uri  Service URI
-     * @param  int $ttl seconds for the cache to live
      * @return JsonResponse Response
      */
-    public function doGetRequest($uri, $ttl = false);
+    public function doGetRequest($uri);
 
     /**
      * Create DELETE request to CORAL backend

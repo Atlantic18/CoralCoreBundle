@@ -2,11 +2,11 @@
 
 namespace Coral\CoreBundle\Service;
 
-use Coral\CoreBundle\Exception\CoralConnectException;
+use Coral\CoreBundle\Exception\ConnectorException;
 use Coral\CoreBundle\Utility\JsonParser;
 use Doctrine\Common\Cache\Cache;
 
-class CoralConnect implements CoralConnectInterface
+class CoralConnector implements ConnectorInterface
 {
     /**
      * Cache driver
@@ -58,6 +58,15 @@ class CoralConnect implements CoralConnectInterface
 
     private function doCurlRequest($type, $uri, $data = null)
     {
+        //Return cached call
+        if($type == 'GET' && (false !== ($params = $this->_cache->fetch($uri))))
+        {
+            $parser = new JsonParser;
+            $parser->setParams($params);
+
+            return $parser;
+        }
+
         $dtime   = time();
 
         $ch = curl_init($this->_host . $uri);
@@ -97,17 +106,23 @@ class CoralConnect implements CoralConnectInterface
 
         if(false === $rawResponse)
         {
-            throw new CoralConnectException('Unable to connect to CORAL backend. Response code: ' . $httpCode);
+            throw new ConnectorException('Unable to connect to CORAL backend. Response code: ' . $httpCode);
         }
 
         $parser = new JsonParser($rawResponse, true);
         if($httpCode < 200 || $httpCode > 299)
         {
-            throw new CoralConnectException(
+            throw new ConnectorException(
                 "Error connecting to CORAL backend.
                 Uri: $type $uri
                 Response code: $httpCode.
                 Error: " . $parser->getMandatoryParam('message'));
+        }
+
+        //Saver response to cache
+        if($type == 'GET')
+        {
+            $this->_cache->save($uri, $parser->getParams(), xxxx);
         }
 
         return $parser;
@@ -132,28 +147,9 @@ class CoralConnect implements CoralConnectInterface
      * @param  int $ttl seconds for the cache to live
      * @return JsonResponse Response
      */
-    public function doGetRequest($uri, $ttl = false)
+    public function doGetRequest($uri)
     {
-        if($ttl && intval($ttl) > 0)
-        {
-            if (false === ($params = $this->_cache->fetch($uri)))
-            {
-                $parser = $this->doCurlRequest('GET', $uri);
-
-                $this->_cache->save($uri, $parser->getParams(), $ttl);
-            }
-            else
-            {
-                $parser = new JsonParser;
-                $parser->setParams($params);
-            }
-        }
-        else
-        {
-            $parser = $this->doCurlRequest('GET', $uri);
-        }
-
-        return $parser;
+        return $this->doCurlRequest('GET', $uri);
     }
 
     /**

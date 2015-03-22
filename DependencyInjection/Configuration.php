@@ -18,23 +18,11 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('coral_core');
+        $rootNode = $treeBuilder->root('coral_file');
 
-        $rootNode
-            ->children()
-                ->scalarNode('uri')
-                    ->defaultValue('CoralRestUri')
-                    ->cannotBeEmpty()
-                ->end()
-                ->scalarNode('account')
-                    ->defaultValue('CoralRestAccount')
-                    ->cannotBeEmpty()
-                ->end()
-                ->scalarNode('api_key')
-                    ->defaultValue('CoralRestToken')
-                    ->cannotBeEmpty()
-                ->end()
-            ->end();
+        // Here you should define the parameters that are allowed to
+        // configure your bundle. See the documentation linked above for
+        // more information on that topic.
 
         return $treeBuilder;
     }

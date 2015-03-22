@@ -5,6 +5,7 @@ namespace Coral\CoreBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Coral\CoreBundle\DependencyInjection\CoralCoreExtension;
+use Coral\CoreBundle\DependencyInjection\ConnectorCompilerPass;
 
 class CoralCoreBundle extends Bundle
 {
@@ -23,5 +24,7 @@ class CoralCoreBundle extends Bundle
         parent::build($container);
 
         $container->registerExtension(new CoralCoreExtension());
+
+        $container->addCompilerPass(new ConnectorCompilerPass);
     }
 }

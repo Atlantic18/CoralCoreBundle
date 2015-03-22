@@ -5,22 +5,18 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="coral.connect.class">Coral\CoreBundle\Service\CoralConnect</parameter>
-        <parameter key="coral.connect_cache.class">Doctrine\Common\Cache\PhpFileCache</parameter>
+        <parameter key="coral.connector.cache.class">Doctrine\Common\Cache\PhpFileCache</parameter>
     </parameters>
 
     <services>
-        <service id="coral.connect.cache" class="%coral.connect_cache.class%">
+        <service id="coral.connector.cache" class="%coral.connector.cache.class%">
             <argument>%kernel.cache_dir%</argument>
             <call method="setNamespace">
-                <argument>coral_connect</argument>
+                <argument>coral_connector</argument>
             </call>
         </service>
-        <service id="coral.connect" class="%coral.connect.class%">
-            <argument type="service" id="coral.connect.cache"/>
-            <argument>%coral.connect.uri%</argument>
-            <argument>%coral.connect.account%</argument>
-            <argument>%coral.connect.api_key%</argument>
-        </service>
+
+        <!-- Connector configuration -->
+        <service id="coral.connector" class="Coral\CoreBundle\Service\Connector" />
     </services>
 </container>

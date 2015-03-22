@@ -2,11 +2,11 @@
 
 namespace Coral\CoreBundle\Service;
 
-use Coral\CoreBundle\Exception\CoralConnectException;
+use Coral\CoreBundle\Exception\ConnectorException;
 use Coral\CoreBundle\Utility\JsonParser;
 use Doctrine\Common\Cache\Cache;
 
-class CoralConnectMockup implements CoralConnectInterface
+class ConnectorMockup implements ConnectorInterface
 {
     protected $rootPath;
 
@@ -24,14 +24,14 @@ class CoralConnectMockup implements CoralConnectInterface
 
         if(!file_exists($filePath))
         {
-            throw new CoralConnectException('Unable to find file: ' . $filePath);
+            throw new ConnectorException('Unable to find file: ' . $filePath);
         }
 
         $content = file_get_contents($filePath);
 
         if(false === $content)
         {
-            throw new CoralConnectException('Unable to load file: ' . $filePath);
+            throw new ConnectorException('Unable to load file: ' . $filePath);
         }
 
         return new JsonParser($content, true);
