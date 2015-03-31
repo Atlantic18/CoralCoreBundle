@@ -1,14 +1,24 @@
 <?php
 
-namespace Coral\CoreBundle\Service;
+namespace Coral\CoreBundle\Service\Connector;
 
 interface ConnectorInterface
 {
     /**
+     * Create request to CORAL backend
+     *
+     * @param  string $method  Method name
+     * @param  string $uri     Service URI
+     * @param  array  $payload Data to be sent
+     * @return JsonResponse Response
+     */
+    public function doRequest($method, $uri, $payload = null);
+
+    /**
      * Create POST request to CORAL backend
      *
-     * @param  string $uri  Service URI
-     * @param  array  $payload Datat to be sent
+     * @param  string $uri     Service URI
+     * @param  array  $payload Data to be sent
      * @return JsonResponse Response
      */
     public function doPostRequest($uri, $payload = null);

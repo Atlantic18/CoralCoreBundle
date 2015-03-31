@@ -3,6 +3,7 @@
 namespace Coral\CoreBundle\Service;
 
 use Coral\CoreBundle\Exception\ConnectorException;
+use Coral\CoreBundle\Service\Connector\ConnectorInterface;
 
 class Connector
 {
@@ -30,15 +31,23 @@ class Connector
     }
 
     /**
-     * Connect to service via connector
+     * Long name alias for to
      *
      * @param  string $connector Connector name
-     * @param  string $method    Request method GET|POST|DELETE
-     * @param  string $uri       Request URI
-     * @param  array  $payload   Optional payload for POST requests
-     * @return Coral\CoreBundle\Utility\JsonParser
+     * @return ConnectorInterface
      */
-    public function connect($connector, $method, $uri, $payload = null)
+    public function connectTo($connector)
+    {
+        return $this->to($connector);
+    }
+
+    /**
+     * Get connector instance
+     *
+     * @param  string $connector Connector name
+     * @return ConnectorInterface
+     */
+    public function to($connector)
     {
         if(!array_key_exists($connector, $this->connectors))
         {
@@ -48,19 +57,6 @@ class Connector
             );
         }
 
-        if(strtolower($method) == 'get')
-        {
-            return $this->connectors[$connector]->doGetRequest($uri);
-        }
-        if(strtolower($method) == 'delete')
-        {
-            return $this->connectors[$connector]->doDeleteRequest($uri);
-        }
-        if(strtolower($method) == 'post')
-        {
-            return $this->connectors[$connector]->doPostRequest($uri, $payload);
-        }
-
-        throw new ConnectorException("Invalid method [$method] for connector [$connector].");
+        return $this->connectors[$connector];
     }
 }

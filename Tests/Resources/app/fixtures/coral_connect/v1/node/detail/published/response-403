@@ -1,0 +1,13 @@
+HTTP/1.1 403 OK
+Cache-Control: private,max-age=0
+Content-Type: text/html; charset=windows-1250
+Content-Encoding: gzip
+Vary: Accept-Encoding
+Server: Apache
+Date: Tue, 31 Mar 2015 05:15:51 GMT
+Connection: close
+
+{
+    "status": "failed",
+    "message": "Invalid authentication"
+}
