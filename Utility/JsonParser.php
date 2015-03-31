@@ -99,10 +99,6 @@ class JsonParser
                         foreach ($subArray as $key => $value) {
                             if(isset($newParamsRef[$key]))
                             {
-                                if(!is_array($newParamsRef[$key]))
-                                {
-                                    $newParamsRef[$key] = array($newParamsRef[$key]);
-                                }
                                 $newParamsRef[$key][] = $value;
                             }
                             else

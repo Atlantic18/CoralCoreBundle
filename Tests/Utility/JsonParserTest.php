@@ -103,9 +103,14 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value2', $request->getMandatoryParam('events.*.*.key[2]'));
         $this->assertCount(1, $request->getMandatoryParam('events.*.*.newkey'));
         $this->assertEquals('value4', $request->getMandatoryParam('events.*.*.newkey[0]'));
+
+        $wildcard = $request->getMandatoryParam('*');
+        $this->assertEquals('someurl', $wildcard['url']);
+
+        $wildcard = $request->getMandatoryParam('events.*.*.*');
+        $this->assertEquals('value2', $wildcard['key'][2]);
+        $this->assertEquals('value4', $wildcard['newkey'][0]);
     }
-
-
 
     public function testGetMandatoryParamWildcardArrayGeneric()
     {
