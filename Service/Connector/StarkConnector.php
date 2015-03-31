@@ -57,7 +57,7 @@ class StarkConnector extends AbstractConnector
 
         if(null !== $data)
         {
-            $handle->setPayload($payload);
+            $handle->setPayload(json_encode($data));
         }
 
         $handle->setHeader('X-Coral-APIKEY', $this->key);

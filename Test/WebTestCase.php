@@ -36,6 +36,8 @@ use Doctrine\Bundle\FixturesBundle\Common\DataFixtures\Loader as DoctrineFixture
  * @author Lea Haensenberger
  * @author Lukas Kahwe Smith <smith@pooteeweet.org>
  * @author Benjamin Eberlei <kontakt@beberlei.de>
+ *
+ * @codeCoverageIgnore
  */
 abstract class WebTestCase extends BaseWebTestCase
 {

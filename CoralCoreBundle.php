@@ -7,6 +7,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Coral\CoreBundle\DependencyInjection\CoralCoreExtension;
 use Coral\CoreBundle\DependencyInjection\ConnectorCompilerPass;
 
+/**
+ * Coral Core Bundle
+ *
+ * @codeCoverageIgnore
+ */
 class CoralCoreBundle extends Bundle
 {
     /**

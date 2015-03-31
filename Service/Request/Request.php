@@ -31,6 +31,7 @@ class Request
      * @param  string $url    Request url
      *
      * @return RequestHandleInterface
+     * @codeCoverageIgnore
      */
     public function createHandle($method, $url)
     {

@@ -6,6 +6,8 @@ use Coral\CoreBundle\Exception\ConnectorException;
 
 /**
  * Curl implementation of Request Interface
+ *
+ * @codeCoverageIgnore
  */
 class CurlRequestHandle implements RequestHandleInterface
 {

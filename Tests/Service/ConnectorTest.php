@@ -28,12 +28,20 @@ class ConnectorTest extends WebTestCase
         $this->assertEquals(1, $response->getMandatoryParam('id'));
 
         $response = $connector->to('stark')->doRequest('get', '/v1/node/detail/published/config-logger');
-
+        $this->assertEquals('ok', $response->getMandatoryParam('status'));
+        $this->assertEquals(2, $response->getMandatoryParam('id'));
+        $response = $connector->connectTo('stark')->doPostRequest(
+            '/v1/node/detail/published/config-logger',
+            array('test' => 'value')
+        );
         $this->assertEquals('ok', $response->getMandatoryParam('status'));
         $this->assertEquals(2, $response->getMandatoryParam('id'));
 
-        $response = $connector->to('coral')->doRequest('post', '/v1/node/detail/published/config-logger');
-
+        $response = $connector->to('coral')->doRequest(
+            'post',
+            '/v1/node/detail/published/config-logger',
+            array('test' => 'value')
+        );
         $this->assertEquals('ok', $response->getMandatoryParam('status'));
         $this->assertEquals(1, $response->getMandatoryParam('id'));
 
@@ -59,6 +67,16 @@ class ConnectorTest extends WebTestCase
         $this->assertNotEquals($randomSlug, $response->getMandatoryParam('slug'), 'Cached TTL works correctly');
     }
 
+    public function testCoralUncached()
+    {
+        $connector = $this->getContainer()->get('coral.connector');
+
+        $response = $connector->to('coral_uncached')->doGetRequest('/v1/node/detail/published/config-logger');
+        $randomSlug = $response->getMandatoryParam('slug');
+        $response = $connector->to('coral_uncached')->doGetRequest('/v1/node/detail/published/config-logger');
+        $this->assertNotEquals($randomSlug, $response->getMandatoryParam('slug'), 'Uncached request works correctly');
+    }
+
     public function testStarkCache()
     {
         $connector = $this->getContainer()->get('coral.connector');
@@ -73,11 +91,39 @@ class ConnectorTest extends WebTestCase
     /**
      * @expectedException Coral\CoreBundle\Exception\ConnectorException
      */
-    public function testInvalidMethod()
+    public function testInvalidMethodCoral()
     {
         $connector = $this->getContainer()->get('coral.connector');
 
         $connector->to('coral')->doRequest('invalid', '/v1/node/detail/published/config-logger');
+    }
+
+    /**
+     * @expectedException Coral\CoreBundle\Exception\ConnectorException
+     */
+    public function testInvalidMethodStark()
+    {
+        $connector = $this->getContainer()->get('coral.connector');
+
+        $connector->to('stark')->doRequest('invalid', '/v1/node/detail/published/config-logger');
+    }
+
+    public function testConnector()
+    {
+        $connector = $this->getContainer()->get('coral.connector');
+
+        $this->assertTrue($connector->to('stark') instanceof \Coral\CoreBundle\Service\Connector\StarkConnector);
+        $this->assertTrue($connector->connectTo('coral') instanceof \Coral\CoreBundle\Service\Connector\CoralConnector);
+    }
+
+    /**
+     * @expectedException Coral\CoreBundle\Exception\ConnectorException
+     */
+    public function testInvalidConnector()
+    {
+        $connector = $this->getContainer()->get('coral.connector');
+
+        $connector->to('invalid');
     }
 
     /**
