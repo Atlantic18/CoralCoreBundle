@@ -62,7 +62,15 @@ class CurlRequestHandle implements RequestHandleInterface
     public function setHeader($key, $value)
     {
         $this->headers[$key] = $value;
-        curl_setopt($this->handle, CURLOPT_HTTPHEADER, $this->headers);
+
+        //Headers can't be passed as key: value associative array
+        $tmpHeaders = array();
+        foreach($this->headers as $tmpKey => $tmpValue)
+        {
+            $tmpHeaders[] = "$tmpKey: $tmpValue";
+        }
+
+        curl_setopt($this->handle, CURLOPT_HTTPHEADER, $tmpHeaders);
     }
 
     /**
