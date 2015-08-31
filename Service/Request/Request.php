@@ -33,9 +33,9 @@ class Request
      * @return RequestHandleInterface
      * @codeCoverageIgnore
      */
-    public function createHandle($method, $url)
+    public function createHandle($method, $url, $disableSslVerification = false)
     {
-        return new CurlRequestHandle($method, $url);
+        return new CurlRequestHandle($method, $url, $disableSslVerification);
     }
 
     /**
