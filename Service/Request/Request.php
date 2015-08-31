@@ -87,7 +87,7 @@ class Request
                 "Error connecting to CORAL backend.
                 Uri: $type $uri
                 Response code: $httpCode.
-                Error: " . $parser->getMandatoryParam('message'));
+                Error: " . $parser->getOptionalParam('message'));
         }
 
         //Save response to cache
