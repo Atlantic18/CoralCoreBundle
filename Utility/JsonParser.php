@@ -30,7 +30,11 @@ class JsonParser
         $this->params = array();
         if (!empty($content))
         {
-            $this->params = json_decode($content, true);
+            $this->params = @json_decode($content, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new JsonException('Error parsing json content: ' . json_last_error_msg());
+            }
 
             if(null === $this->params)
             {

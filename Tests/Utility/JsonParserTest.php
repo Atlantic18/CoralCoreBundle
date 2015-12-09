@@ -15,6 +15,16 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
         $request->importString('');
     }
 
+    public function testJsonDecodeIntegerOverflow()
+    {
+        /*
+         * this causes in a regular json_decode a notification problem
+         * this is a test to check parsing errors work properly
+         */
+        $request = new JsonParser;
+        $request->importString('{ "a": 9223372036854775807 }');
+    }
+
     public function testConstructEmpty()
     {
         $request = new JsonParser;
