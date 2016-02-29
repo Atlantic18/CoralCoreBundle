@@ -38,7 +38,9 @@ class JsonParser
 
             if(null === $this->params)
             {
+                // @codeCoverageIgnoreStart
                 throw new JsonException("Error parsing json content: '$content'");
+                // @codeCoverageIgnoreEnd
             }
         }
         return $this->params;
