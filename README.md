@@ -21,7 +21,7 @@ You can find detailed documentation on the [official website][1].
 Tests
 ----------------------
 
-Test suites are part of the bundle and code is fully covered. You can find details at [travis-ci.org][1]
+Test suites are part of the bundle and code is fully covered. You can find details at [travis-ci.org][2]
 
 ![Travis-ci.org](https://travis-ci.org/Atlantic18/CoralCoreBundle.svg?branch=master)
 
