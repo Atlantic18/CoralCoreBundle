@@ -3,6 +3,7 @@
 namespace Coral\CoreBundle\Service\Request;
 
 use Coral\CoreBundle\Exception\ConnectorException;
+use Coral\CoreBundle\Exception\HttpTrace;
 use Coral\CoreBundle\Utility\JsonParser;
 use Doctrine\Common\Cache\Cache;
 use Coral\CoreBundle\Service\Request\RequestHandleInterface;
@@ -82,13 +83,15 @@ class Request
 
         if($httpCode < 200 || $httpCode > 299)
         {
-            $type = $handle->getMethod();
-            $uri  = $handle->getUrl();
-            throw new ConnectorException(
+            $type      = $handle->getMethod();
+            $uri       = $handle->getUrl();
+            $exception = new ConnectorException(
                 "Error connecting to CORAL backend.
                 Uri: $type $uri
                 Response code: $httpCode.
                 Error: " . $parser->getOptionalParam('message'));
+            $exception->setHttpTrace(new HttpTrace($uri, $httpCode, $rawResponse));
+            throw $exception;
         }
 
         //Save response to cache

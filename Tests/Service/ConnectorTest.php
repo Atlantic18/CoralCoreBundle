@@ -136,6 +136,22 @@ class ConnectorTest extends WebTestCase
         $connector->to('coral')->doPostRequest('/v1/node/detail/published/response-403');
     }
 
+    public function testHttpTrace()
+    {
+        $connector = $this->getContainer()->get('coral.connector');
+
+        try
+        {
+            $connector->to('coral')->doPostRequest('/v1/node/detail/published/response-403');
+        }
+        catch(\Coral\CoreBundle\Exception\ConnectorException $exception)
+        {
+            $this->assertEquals(403, $exception->getHttpTrace()->getCode());
+            $this->assertStringEndsWith('/v1/node/detail/published/response-403', $exception->getHttpTrace()->getUri());
+            $this->assertContains('Invalid authentication', $exception->getHttpTrace()->getBody());
+        }
+    }
+
     /**
      * @expectedException Coral\CoreBundle\Exception\ConnectorException
      */
