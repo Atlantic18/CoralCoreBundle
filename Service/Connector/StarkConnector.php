@@ -62,6 +62,6 @@ class StarkConnector extends AbstractConnector
 
         $handle->setHeader('X-Coral-APIKEY', $this->key);
 
-        return $this->request->doJsonRequest($handle);
+        return $this->request->doRequestAndParse($handle);
     }
 }

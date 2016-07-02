@@ -79,6 +79,6 @@ class CoralConnector extends AbstractConnector
         $handle->setHeader('X-CORAL-ACCOUNT', $this->account);
         $handle->setHeader('X-CORAL-DTIME', $dtime);
 
-        return $this->request->doJsonRequest($handle);
+        return $this->request->doRequestAndParse($handle);
     }
 }

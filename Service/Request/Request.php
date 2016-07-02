@@ -60,9 +60,29 @@ class Request
         return true;
     }
 
+    /**
+     * Json request
+     *
+     * @deprecated since version 0.3, please use doRequest instead
+     * @codeCoverageIgnore
+     */
     public function doJsonRequest(RequestHandleInterface $handle)
     {
-        if($this->isCacheable($handle) && (false !== ($params = $this->cache->fetch($handle->hash()))))
+        return $this->doRequestAndParse($handle);
+    }
+
+    /**
+     * Do request and return response as a Parser instance. Note: if you need
+     * response headers use doRequest instead.
+     *
+     * @param RequestHandleInterface $handle Request handle
+     * @param string $contentType ContentType of the request
+     *
+     * @return Parser
+     */
+    public function doRequestAndParse(RequestHandleInterface $handle, $contentType = 'application/json')
+    {
+        if($this->isCacheable($handle) && (false !== ($params = $this->cache->fetch('parser_' . $handle->hash()))))
         {
             $parser = new JsonParser;
             $parser->setParams($params);
@@ -70,7 +90,7 @@ class Request
             return $parser;
         }
 
-        $handle->setHeader('Content-Type', 'application/json');
+        $handle->setHeader('Content-Type', $contentType);
         $handle->setHeader('X-Requested-With', 'XMLHttpRequest');
 
         $rawResponse = $handle->execute();
@@ -79,21 +99,21 @@ class Request
 
         $headers     = substr($rawResponse, 0, $header_size);
         $rawResponse = substr($rawResponse, $header_size);
-        $parser      = new JsonParser($rawResponse, true);
 
         if($httpCode < 200 || $httpCode > 299)
         {
             $type      = $handle->getMethod();
             $uri       = $handle->getUrl();
             $exception = new ConnectorException(
-                "Error connecting to CORAL backend.
+                "Error connecting to:
                 Uri: $type $uri
                 Response code: $httpCode.
-                Error: " . $parser->getOptionalParam('message'));
+                Error: " . substr($rawResponse, 0, 255));
             $exception->setHttpTrace(new HttpTrace($uri, $httpCode, $rawResponse));
             throw $exception;
         }
 
+        $parser = new JsonParser($rawResponse, true);
         //Save response to cache
         if($this->isCacheable($handle))
         {
@@ -108,10 +128,64 @@ class Request
 
             if($cacheTTL)
             {
-                $this->cache->save($handle->hash(), $parser->getParams(), $cacheTTL);
+                $this->cache->save('parser_' . $handle->hash(), $parser->getParams(), $cacheTTL);
             }
         }
 
         return $parser;
+    }
+
+    /**
+     * Do request
+     *
+     * @param RequestHandleInterface $handle Request handle
+     * @param string $contentType ContentType of the request
+     *
+     * @return Response
+     */
+    public function doRequest(RequestHandleInterface $handle, $contentType = 'application/json')
+    {
+        if
+        (
+            $this->isCacheable($handle)
+            &&
+            (false !== ($rawResponse = $this->cache->fetch('response_' . $handle->hash())))
+        )
+        {
+            return new Response($rawResponse);
+        }
+
+        $handle->setHeader('Content-Type', $contentType);
+        $handle->setHeader('X-Requested-With', 'XMLHttpRequest');
+
+        $rawResponse = $handle->execute();
+        $httpCode    = $handle->getResponseCode();
+
+        if($httpCode < 200 || $httpCode > 299)
+        {
+            $type      = $handle->getMethod();
+            $uri       = $handle->getUrl();
+            $exception = new ConnectorException(
+                "Error connecting to:
+                Uri: $type $uri
+                Response code: $httpCode.
+                Error: " . substr($rawResponse, 0, 255));
+            $exception->setHttpTrace(new HttpTrace($uri, $httpCode, $rawResponse));
+            throw $exception;
+        }
+
+        $response = new Response($rawResponse);
+        //Save response to cache
+        if($this->isCacheable($handle))
+        {
+            $cacheTTL = $response->getMaxAge();
+
+            if(null !== $cacheTTL)
+            {
+                $this->cache->save('response_' . $handle->hash(), $rawResponse, $cacheTTL);
+            }
+        }
+
+        return $response;
     }
 }
