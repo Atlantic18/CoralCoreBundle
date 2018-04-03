@@ -14,7 +14,7 @@ services:
         tags:
             -  { name: coral.connector.service, service: "stark" }
     coral.connector.request_uncached:
-        class: %coral.connector.request.class%
+        class: "%coral.connector.request.class%"
     coral.connect.coral_uncached:
         class: Coral\CoreBundle\Service\Connector\CoralConnector
         arguments: ["@coral.connector.request_uncached", "%kernel.root_dir%/fixtures/coral_connect", "account", "apisecretkey"]
@@ -26,18 +26,16 @@ framework:
     test: ~
     session:
         storage_id: session.storage.filesystem
-    form:            true
-    csrf_protection: true
     validation:
         enabled: true
         enable_annotations: true
     router:
-        resource: %kernel.root_dir%/config/routing.php
+        resource: "%kernel.root_dir%/config/routing.php"
     default_locale: "en"
 
 monolog:
     handlers:
         main:
             type:  stream
-            path:  %kernel.logs_dir%/%kernel.environment%.log
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug

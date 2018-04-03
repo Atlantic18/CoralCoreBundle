@@ -4,7 +4,7 @@ namespace Coral\CoreBundle\Tests\Utility;
 
 use Coral\CoreBundle\Utility\JsonParser;
 
-class JsonParserTest extends \PHPUnit_Framework_TestCase
+class JsonParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @expectedException Coral\CoreBundle\Exception\JsonException
@@ -22,7 +22,8 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
          * this is a test to check parsing errors work properly
          */
         $request = new JsonParser;
-        $request->importString('{ "a": 9223372036854775807 }');
+        $params  = $request->importString('{ "a": 9223372036854775807 }');
+        $this->assertEquals($params['a'], 9223372036854775807);
     }
 
     public function testConstructEmpty()

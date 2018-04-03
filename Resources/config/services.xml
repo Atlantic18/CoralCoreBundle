@@ -10,18 +10,18 @@
     </parameters>
 
     <services>
-        <service id="coral.connector.cache" class="%coral.connector.cache.class%">
+        <service id="coral.connector.cache" class="%coral.connector.cache.class%" public="true">
             <argument>%kernel.cache_dir%</argument>
             <call method="setNamespace">
                 <argument>coral_connector</argument>
             </call>
         </service>
 
-        <service id="coral.connector.request" class="%coral.connector.request.class%">
+        <service id="coral.connector.request" class="%coral.connector.request.class%" public="true">
             <argument type="service" id="coral.connector.cache"/>
         </service>
 
         <!-- Connector configuration -->
-        <service id="coral.connector" class="Coral\CoreBundle\Service\Connector" />
+        <service id="coral.connector" class="Coral\CoreBundle\Service\Connector" public="true" />
     </services>
 </container>

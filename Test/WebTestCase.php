@@ -57,22 +57,6 @@ abstract class WebTestCase extends BaseWebTestCase
      */
     static private $cachedMetadatas = array();
 
-    static protected function getKernelClass()
-    {
-        $dir = isset($_SERVER['KERNEL_DIR']) ? $_SERVER['KERNEL_DIR'] : self::getPhpUnitXmlDir();
-
-        list($appname) = explode('\\', get_called_class());
-
-        $class = $appname.'Kernel';
-        $file = $dir.'/'.strtolower($appname).'/'.$class.'.php';
-        if (!file_exists($file)) {
-            return parent::getKernelClass();
-        }
-        require_once $file;
-
-        return $class;
-    }
-
     /**
      * Get an instance of the dependency injection container.
      * (this creates a kernel *without* parameters).

@@ -1,5 +1,7 @@
 <?php
 
+namespace Coral\CoreBundle\Tests\Resources\app;
+
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -8,10 +10,10 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         return array(
-            new Symfony\Bundle\SecurityBundle\SecurityBundle(),
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new Symfony\Bundle\MonologBundle\MonologBundle(),
-            new Coral\CoreBundle\CoralCoreBundle()
+            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            new \Symfony\Bundle\MonologBundle\MonologBundle(),
+            new \Coral\CoreBundle\CoralCoreBundle()
         );
     }
 
