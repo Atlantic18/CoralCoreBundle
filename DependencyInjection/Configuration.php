@@ -19,8 +19,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('coral_file');
+        $treeBuilder = new TreeBuilder('coral_file');
+        $rootNode = method_exists(TreeBuilder::class, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root('coral_file');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
