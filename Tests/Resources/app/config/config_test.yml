@@ -5,19 +5,19 @@ parameters:
 services:
     coral.connect.coral:
         class: Coral\CoreBundle\Service\Connector\CoralConnector
-        arguments: ["@coral.connector.request", "%kernel.root_dir%/fixtures/coral_connect", "account", "apisecretkey"]
+        arguments: ["@coral.connector.request", "%kernel.project_dir%/Tests/Resources/app/fixtures/coral_connect", "account", "apisecretkey"]
         tags:
             -  { name: coral.connector.service, service: "coral" }
     coral.connect.stark:
         class: Coral\CoreBundle\Service\Connector\StarkConnector
-        arguments: ["@coral.connector.request", "%kernel.root_dir%/fixtures/stark_connect", "apisecretkey"]
+        arguments: ["@coral.connector.request", "%kernel.project_dir%/Tests/Resources/app/fixtures/stark_connect", "apisecretkey"]
         tags:
             -  { name: coral.connector.service, service: "stark" }
     coral.connector.request_uncached:
         class: "%coral.connector.request.class%"
     coral.connect.coral_uncached:
         class: Coral\CoreBundle\Service\Connector\CoralConnector
-        arguments: ["@coral.connector.request_uncached", "%kernel.root_dir%/fixtures/coral_connect", "account", "apisecretkey"]
+        arguments: ["@coral.connector.request_uncached", "%kernel.project_dir%/Tests/Resources/app/fixtures/coral_connect", "account", "apisecretkey"]
         tags:
             -  { name: coral.connector.service, service: "coral_uncached" }
 
@@ -30,7 +30,7 @@ framework:
         enabled: true
         enable_annotations: true
     router:
-        resource: "%kernel.root_dir%/config/routing.php"
+        resource: "%kernel.project_dir%/config/routing.php"
     default_locale: "en"
 
 monolog:

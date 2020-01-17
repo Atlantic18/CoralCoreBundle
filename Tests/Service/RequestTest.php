@@ -22,8 +22,8 @@ class RequestTest extends WebTestCase
         $request  = $this->getContainer()->get('coral.connector.request');
         $handle   = $request->createHandle(
             Request::GET,
-            $this->getContainer()->getParameter('kernel.root_dir') .
-            '/fixtures/coral_connect/v1/node/detail/published/config-logger'
+            $this->getContainer()->getParameter('kernel.project_dir') .
+            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/config-logger'
         );
         $response = $request->doRequest($handle);
         $parser   = new JsonParser($response->getContent());
@@ -40,8 +40,8 @@ class RequestTest extends WebTestCase
         $request  = $this->getContainer()->get('coral.connector.request');
         $handle   = $request->createHandle(
             Request::GET,
-            $this->getContainer()->getParameter('kernel.root_dir') .
-            '/fixtures/coral_connect/v1/node/detail/published/config-logger'
+            $this->getContainer()->getParameter('kernel.project_dir') .
+            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/config-logger'
         );
         $response = $request->doRequest($handle);
         $parser   = new JsonParser($response->getContent());
@@ -51,8 +51,8 @@ class RequestTest extends WebTestCase
         $request  = $this->getContainer()->get('coral.connector.request');
         $handle   = $request->createHandle(
             Request::GET,
-            $this->getContainer()->getParameter('kernel.root_dir') .
-            '/fixtures/coral_connect/v1/node/detail/published/config-logger'
+            $this->getContainer()->getParameter('kernel.project_dir') .
+            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/config-logger'
         );
         $response = $request->doRequest($handle);
         $parser   = new JsonParser($response->getContent());
@@ -63,8 +63,8 @@ class RequestTest extends WebTestCase
         $request  = $this->getContainer()->get('coral.connector.request');
         $handle   = $request->createHandle(
             Request::GET,
-            $this->getContainer()->getParameter('kernel.root_dir') .
-            '/fixtures/coral_connect/v1/node/detail/published/config-logger'
+            $this->getContainer()->getParameter('kernel.project_dir') .
+            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/config-logger'
         );
         $response = $request->doRequest($handle);
         $parser   = new JsonParser($response->getContent());
@@ -76,8 +76,8 @@ class RequestTest extends WebTestCase
         $request  = $this->getContainer()->get('coral.connector.request');
         $handle   = $request->createHandle(
             Request::GET,
-            $this->getContainer()->getParameter('kernel.root_dir') .
-            '/fixtures/coral_connect/v1/node/detail/published/response-403'
+            $this->getContainer()->getParameter('kernel.project_dir') .
+            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/response-403'
         );
 
         try
@@ -88,20 +88,19 @@ class RequestTest extends WebTestCase
         {
             $this->assertEquals(403, $exception->getHttpTrace()->getCode());
             $this->assertStringEndsWith('/v1/node/detail/published/response-403', $exception->getHttpTrace()->getUri());
-            $this->assertContains('Invalid authentication', $exception->getHttpTrace()->getBody());
+            $this->assertStringContainsString('Invalid authentication', $exception->getHttpTrace()->getBody());
         }
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\ConnectorException
-     */
     public function testInvalidUri()
     {
+        $this->expectException('Coral\CoreBundle\Exception\ConnectorException');
+
         $request  = $this->getContainer()->get('coral.connector.request');
         $handle   = $request->createHandle(
             Request::GET,
-            $this->getContainer()->getParameter('kernel.root_dir') .
-            '/fixtures/coral_stark/v1/node/detail/published/config-logger'
+            $this->getContainer()->getParameter('kernel.project_dir') .
+            '/Tests/Resources/app/fixtures/coral_stark/v1/node/detail/published/config-logger'
         );
         $response = $request->doRequest($handle);
     }

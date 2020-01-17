@@ -88,21 +88,19 @@ class ConnectorTest extends WebTestCase
         $this->assertNotEquals($randomSlug, $response->getMandatoryParam('slug'), 'Do note cach headers work correctly');
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\ConnectorException
-     */
     public function testInvalidMethodCoral()
     {
+        $this->expectException('Coral\CoreBundle\Exception\ConnectorException');
+
         $connector = $this->getContainer()->get('coral.connector');
 
         $connector->to('coral')->doRequest('invalid', '/v1/node/detail/published/config-logger');
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\ConnectorException
-     */
     public function testInvalidMethodStark()
     {
+        $this->expectException('Coral\CoreBundle\Exception\ConnectorException');
+
         $connector = $this->getContainer()->get('coral.connector');
 
         $connector->to('stark')->doRequest('invalid', '/v1/node/detail/published/config-logger');
@@ -116,21 +114,19 @@ class ConnectorTest extends WebTestCase
         $this->assertTrue($connector->connectTo('coral') instanceof \Coral\CoreBundle\Service\Connector\CoralConnector);
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\ConnectorException
-     */
     public function testInvalidConnector()
     {
+        $this->expectException('Coral\CoreBundle\Exception\ConnectorException');
+
         $connector = $this->getContainer()->get('coral.connector');
 
         $connector->to('invalid');
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\ConnectorException
-     */
     public function testResponseHeaders()
     {
+        $this->expectException('Coral\CoreBundle\Exception\ConnectorException');
+
         $connector = $this->getContainer()->get('coral.connector');
 
         $connector->to('coral')->doPostRequest('/v1/node/detail/published/response-403');
@@ -148,15 +144,14 @@ class ConnectorTest extends WebTestCase
         {
             $this->assertEquals(403, $exception->getHttpTrace()->getCode());
             $this->assertStringEndsWith('/v1/node/detail/published/response-403', $exception->getHttpTrace()->getUri());
-            $this->assertContains('Invalid authentication', $exception->getHttpTrace()->getBody());
+            $this->assertStringContainsString('Invalid authentication', $exception->getHttpTrace()->getBody());
         }
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\ConnectorException
-     */
     public function testInvalidUri()
     {
+        $this->expectException('Coral\CoreBundle\Exception\ConnectorException');
+
         $connector = $this->getContainer()->get('coral.connector');
 
         $connector->to('stark')->doGetRequest('/v1/node/detail/published/config');

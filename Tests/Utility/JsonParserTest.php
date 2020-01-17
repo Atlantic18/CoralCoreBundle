@@ -6,11 +6,10 @@ use Coral\CoreBundle\Utility\JsonParser;
 
 class JsonParserTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testImportStringException()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser;
         $request->importString('');
     }
@@ -33,11 +32,10 @@ class JsonParserTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(0, $request->getParams());
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testInvalidJson()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{');
     }
 
@@ -60,11 +58,10 @@ class JsonParserTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($request->hasParam('events.none'));
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testGetMandatoryParamException()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{ "event":"add_content", "url": "http://www.orm-designer.com/flush-content-cache?node=$SLUG$" }');
         $request->getMandatoryParam('test');
     }
@@ -132,56 +129,50 @@ class JsonParserTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('event2', $events[1]);
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testGetMandatoryParamArrayException()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{ "events": ["event1", "event2"], "url": "someurl" }');
         $this->assertEquals('add_content', $request->getMandatoryParam('events[2]'));
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testGetMandatoryParamArrayLevel3Exception()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{ "events": [{ "event1": { "key": "value" }}, "event2"], "url": "someurl" }');
         $request->getMandatoryParam('events[0].event1.unknown');
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testGetMandatoryParamWildcardArrayLevel3Exception()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{ "events": [{ "event1": { "key": "value" }}, "event2"], "url": "someurl" }');
         $request->getMandatoryParam('events.*.key[2]');
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testGetMandatoryParamInvalidException()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{ "events": [{ "event1": { "key": "value" }}, "event2"], "url": "someurl" }');
         $request->getMandatoryParam('events.[*].key[0]');
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testGetMandatoryParamInvalid2Exception()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{ "events": [{ "event1": { "key": "value" }}, "event2"], "url": "someurl" }');
         $request->getMandatoryParam('events[.key[0]');
     }
 
-    /**
-     * @expectedException Coral\CoreBundle\Exception\JsonException
-     */
     public function testGetMandatoryParamInvalid3Exception()
     {
+        $this->expectException('Coral\CoreBundle\Exception\JsonException');
+
         $request = new JsonParser('{ "events": [{ "event1": { "key": "value" }}, "event2"], "url": "someurl" }');
         $request->getMandatoryParam('events].key[0]');
     }

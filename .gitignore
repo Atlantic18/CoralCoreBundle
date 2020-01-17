@@ -4,5 +4,6 @@ composer.lock
 composer.phar
 vendor
 phpunit.xml
+.phpunit.result.cache
 nbproject
 catalog.xml
