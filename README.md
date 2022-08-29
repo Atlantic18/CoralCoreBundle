@@ -31,7 +31,9 @@ Docker
 ```
 docker build -t bundle_symfony:latest .
 docker run -v `pwd`:/app bundle_symfony composer update
-docker run -v `pwd`:/app bundle_symfony /app/vendor/bin/simple-phpunit install
+docker run -v `pwd`:/app bundle_symfony php vendor/bin/phpunit
+
+/app/vendor/bin/simple-phpunit install
 docker run -v `pwd`:/app bundle_symfony /app/vendor/bin/simple-phpunit -v
 ```
 
