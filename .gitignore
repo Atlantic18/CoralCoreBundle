@@ -3,6 +3,7 @@ Tests/Resources/app/logs
 composer.lock
 composer.phar
 vendor
+var
 phpunit.xml
 .phpunit.result.cache
 nbproject
