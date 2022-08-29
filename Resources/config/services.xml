@@ -5,20 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="coral.connector.cache.class">Doctrine\Common\Cache\PhpFileCache</parameter>
         <parameter key="coral.connector.request.class">Coral\CoreBundle\Service\Request\Request</parameter>
     </parameters>
 
     <services>
-        <service id="coral.connector.cache" class="%coral.connector.cache.class%" public="true">
-            <argument>%kernel.cache_dir%</argument>
-            <call method="setNamespace">
-                <argument>coral_connector</argument>
-            </call>
-        </service>
-
         <service id="coral.connector.request" class="%coral.connector.request.class%" public="true">
-            <argument type="service" id="coral.connector.cache"/>
         </service>
 
         <!-- Connector configuration -->

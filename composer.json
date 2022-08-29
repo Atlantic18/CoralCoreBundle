@@ -12,19 +12,18 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
-        "symfony/framework-bundle": "~5.0",
-        "symfony/finder": "~5.0",
-        "symfony/yaml": "~5.0",
-        "symfony/browser-kit": "~5.0",
-        "symfony/security-bundle": "~5.0",
-        "symfony/monolog-bundle": "~2.8|~3.0|~4.0|~5.0",
-        "symfony/validator": "~5.0",
-        "sensio/framework-extra-bundle": "~5.0",
-        "doctrine/cache": "~1.8"
+        "php": ">=8.1",
+        "symfony/framework-bundle": "~6.0",
+        "symfony/finder": "~6.0",
+        "symfony/yaml": "~6.0",
+        "symfony/browser-kit": "~6.0",
+        "symfony/security-bundle": "~6.0",
+        "symfony/monolog-bundle": "~2.8|~3.0|~4.0|~6.0",
+        "symfony/validator": "~6.0",
+        "sensio/framework-extra-bundle": "~6.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "~5.0"
+        "symfony/test-pack": "*"
     },
     "autoload": {
         "psr-0": { "Coral\\CoreBundle": "" }

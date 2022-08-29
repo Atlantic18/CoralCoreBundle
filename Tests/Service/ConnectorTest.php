@@ -12,13 +12,15 @@
 namespace Coral\CoreBundle\Tests\Service;
 
 use Coral\CoreBundle\Service\Connector;
-use Coral\CoreBundle\Test\WebTestCase;
 
-class ConnectorTest extends WebTestCase
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+
+class ConnectorTest extends KernelTestCase
 {
     public function testCoralConnect()
     {
-        $connector = $this->getContainer()->get('coral.connector');
+        self::bootKernel();
+        $connector = $this::getContainer()->get('coral.connector');
 
         $this->assertTrue($connector instanceof Connector);
 
@@ -51,22 +53,6 @@ class ConnectorTest extends WebTestCase
         $this->assertEquals(1, $response->getMandatoryParam('id'));
     }
 
-    public function testCoralCache()
-    {
-        $connector = $this->getContainer()->get('coral.connector');
-
-        $response = $connector->to('coral')->doGetRequest('/v1/node/detail/published/config-logger');
-        $randomSlug = $response->getMandatoryParam('slug');
-        //following request should be fetched from cache
-        $response = $connector->to('coral')->doGetRequest('/v1/node/detail/published/config-logger');
-        $this->assertEquals($randomSlug, $response->getMandatoryParam('slug'), 'Cached response is correct');
-
-        //wait 8 seconds to make sure cache expired
-        sleep(8);
-        $response = $connector->to('coral')->doGetRequest('/v1/node/detail/published/config-logger');
-        $this->assertNotEquals($randomSlug, $response->getMandatoryParam('slug'), 'Cached TTL works correctly');
-    }
-
     public function testCoralUncached()
     {
         $connector = $this->getContainer()->get('coral.connector');
@@ -75,17 +61,6 @@ class ConnectorTest extends WebTestCase
         $randomSlug = $response->getMandatoryParam('slug');
         $response = $connector->to('coral_uncached')->doGetRequest('/v1/node/detail/published/config-logger');
         $this->assertNotEquals($randomSlug, $response->getMandatoryParam('slug'), 'Uncached request works correctly');
-    }
-
-    public function testStarkCache()
-    {
-        $connector = $this->getContainer()->get('coral.connector');
-
-        $response = $connector->to('stark')->doGetRequest('/v1/node/detail/published/config-logger');
-        $randomSlug = $response->getMandatoryParam('slug');
-        //following request should not be fetched from cache as cache headers don't allow
-        $response = $connector->to('stark')->doGetRequest('/v1/node/detail/published/config-logger');
-        $this->assertNotEquals($randomSlug, $response->getMandatoryParam('slug'), 'Do note cach headers work correctly');
     }
 
     public function testInvalidMethodCoral()

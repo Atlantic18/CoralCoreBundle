@@ -13,9 +13,9 @@ namespace Coral\CoreBundle\Tests\Service;
 
 use Coral\CoreBundle\Service\Request\Request;
 use Coral\CoreBundle\Utility\JsonParser;
-use Coral\CoreBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class RequestTest extends WebTestCase
+class RequestTest extends KernelTestCase
 {
     public function testDoRequest()
     {
@@ -33,42 +33,6 @@ class RequestTest extends WebTestCase
         $this->assertEquals('text/html; charset=windows-1250', $response->getHeaderBag()->get('content-type'));
         $this->assertEquals('ok', $parser->getMandatoryParam('status'));
         $this->assertEquals(1, $parser->getMandatoryParam('id'));
-    }
-
-    public function testCache()
-    {
-        $request  = $this->getContainer()->get('coral.connector.request');
-        $handle   = $request->createHandle(
-            Request::GET,
-            $this->getContainer()->getParameter('kernel.project_dir') .
-            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/config-logger'
-        );
-        $response = $request->doRequest($handle);
-        $parser   = new JsonParser($response->getContent());
-
-        $randomSlug = $parser->getMandatoryParam('slug');
-        //following request should be fetched from cache
-        $request  = $this->getContainer()->get('coral.connector.request');
-        $handle   = $request->createHandle(
-            Request::GET,
-            $this->getContainer()->getParameter('kernel.project_dir') .
-            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/config-logger'
-        );
-        $response = $request->doRequest($handle);
-        $parser   = new JsonParser($response->getContent());
-        $this->assertEquals($randomSlug, $parser->getMandatoryParam('slug'), 'Cached response is correct');
-
-        //wait 8 seconds to make sure cache expired
-        sleep(8);
-        $request  = $this->getContainer()->get('coral.connector.request');
-        $handle   = $request->createHandle(
-            Request::GET,
-            $this->getContainer()->getParameter('kernel.project_dir') .
-            '/Tests/Resources/app/fixtures/coral_connect/v1/node/detail/published/config-logger'
-        );
-        $response = $request->doRequest($handle);
-        $parser   = new JsonParser($response->getContent());
-        $this->assertNotEquals($randomSlug, $parser->getMandatoryParam('slug'), 'Cached TTL works correctly');
     }
 
     public function testHttpTrace()

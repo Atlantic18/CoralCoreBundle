@@ -7,7 +7,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return array(
             new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
@@ -33,13 +33,5 @@ class AppKernel extends Kernel
         $fname = $refl->getFileName();
         $kernelDir = dirname($fname);
         return $kernelDir;
-    }
-
-    public function getCacheDir()
-    {
-        return implode('/', array(
-            $this->getKernelDir(),
-            'cache'
-        ));
     }
 }
